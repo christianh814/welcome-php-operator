@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test
+---
+apiVersion: capp.chernand.io/v1alpha1
+kind: WelcomePhp
+metadata:
+  name: welcomephp-sample
+  namespace: test
+spec:
+  size: 3

@@ -1,0 +1,27 @@
+# permissions for end users to view welcomephps.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: welcomephp-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: welcome-php-operator
+    app.kubernetes.io/part-of: welcome-php-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: welcomephp-viewer-role
+rules:
+- apiGroups:
+  - capp.chernand.io
+  resources:
+  - welcomephps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - capp.chernand.io
+  resources:
+  - welcomephps/status
+  verbs:
+  - get

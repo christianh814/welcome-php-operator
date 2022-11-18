@@ -1,0 +1,31 @@
+# permissions for end users to edit welcomephps.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: welcomephp-editor-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: welcome-php-operator
+    app.kubernetes.io/part-of: welcome-php-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: welcomephp-editor-role
+rules:
+- apiGroups:
+  - capp.chernand.io
+  resources:
+  - welcomephps
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - capp.chernand.io
+  resources:
+  - welcomephps/status
+  verbs:
+  - get

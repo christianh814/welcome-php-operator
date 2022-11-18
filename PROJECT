@@ -1,0 +1,19 @@
+domain: chernand.io
+layout:
+- go.kubebuilder.io/v3
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+  scorecard.sdk.operatorframework.io/v2: {}
+projectName: welcome-php-operator
+repo: github.com/christianh814/welcome-php-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: chernand.io
+  group: capp
+  kind: WelcomePhp
+  path: github.com/christianh814/welcome-php-operator/api/v1alpha1
+  version: v1alpha1
+version: "3"

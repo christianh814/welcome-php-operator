@@ -1,0 +1,12 @@
+apiVersion: capp.chernand.io/v1alpha1
+kind: WelcomePhp
+metadata:
+  labels:
+    app.kubernetes.io/name: welcomephp
+    app.kubernetes.io/instance: welcomephp-sample
+    app.kubernetes.io/part-of: welcome-php-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: welcome-php-operator
+  name: welcomephp-sample
+spec:
+  # TODO(user): Add fields here
