@@ -38,6 +38,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	cappv1alpha1 "github.com/christianh814/welcome-php-operator/api/v1alpha1"
+	"github.com/christianh814/welcome-php-operator/pkg/dostuff"
 )
 
 // CHX - Setup default image for the WelcomePhp CR
@@ -95,6 +96,25 @@ func (r *WelcomePhpReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 		}
 		// Error reading the object - requeue the request
 		log.Error(err, " - Failed to get WelcomePhp")
+		return ctrl.Result{}, err
+	}
+
+	// CHX -adding secret stuff
+	s := dostuff.ReturnSecret(welcomephp.Name, welcomephp.Namespace)
+	err = ctrl.SetControllerReference(welcomephp, s, r.Scheme)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+	sfounnd := &corev1.Secret{}
+	err = r.Get(ctx, types.NamespacedName{Name: s.Name, Namespace: s.Namespace}, sfounnd)
+	if err != nil && apierrors.IsNotFound(err) {
+		err = r.Create(ctx, s)
+		if err != nil {
+			log.Error(err, " - Failed to create Secret")
+			return ctrl.Result{}, err
+		}
+	} else if err != nil {
+		log.Error(err, " - Failed to get Secret")
 		return ctrl.Result{}, err
 	}
 
