@@ -63,10 +63,11 @@ type WelcomePhpReconciler struct {
 //+kubebuilder:rbac:groups=capp.chernand.io,resources=welcomephps,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=capp.chernand.io,resources=welcomephps/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=capp.chernand.io,resources=welcomephps/finalizers,verbs=update
-//CHX -add additional RBAC
+//CHX -add additional RBAC (NOTE: I had to add secrets when I added the dostuff package)
 //+kubebuilder:rbac:groups=core,resources=events,verbs=create;patch
 //+kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch
+//+kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -100,7 +101,8 @@ func (r *WelcomePhpReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 	}
 
 	// CHX -adding secret stuff
-	s := dostuff.ReturnSecret(welcomephp.Name, welcomephp.Namespace)
+	// TODO: update the status in K8S
+	s := dostuff.ReturnSecret(welcomephp.Name+"-secret", welcomephp.Namespace)
 	err = ctrl.SetControllerReference(welcomephp, s, r.Scheme)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -117,6 +119,7 @@ func (r *WelcomePhpReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 		log.Error(err, " - Failed to get Secret")
 		return ctrl.Result{}, err
 	}
+	// * End of secret stuff *//
 
 	// Get the Image
 	if len(welcomephp.Spec.ContainerImage) > 0 {
