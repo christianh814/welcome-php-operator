@@ -435,9 +435,7 @@ func labelsForWelcomePhp(name string) map[string]string {
 // imageForWelcomephp gets the Operand image which is managed by this controller
 // environment variable defined in the config/manager/manager.yaml
 func imageForWelcomephp() (string, error) {
-	var image = WelcomePhpImage
-	return image, nil
-
+	return WelcomePhpImage, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.
